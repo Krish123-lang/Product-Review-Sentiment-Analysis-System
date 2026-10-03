@@ -71,22 +71,21 @@ models/sentiment_pipeline.joblib
 models/metrics.json
 ```
 
-### Start Streamlit
+### Start Flask API
 
-```bash
-streamlit run app.py
-```
-
-Open the URL printed by Streamlit.
-
-## 2. Run Flask API separately
-
-In another terminal:
+In one terminal:
 
 ```bash
 python api.py
 ```
 
+### Start Streamlit
+
+In another terminal:
+
+```bash
+streamlit run app.py
+```
 Test health:
 
 ```bash
@@ -98,8 +97,6 @@ Test prediction:
 ```bash
 curl -X POST http://127.0.0.1:5000/predict -H "Content-Type: application/json" -d "{\"text\":\"The product is excellent and reliable.\"}"
 ```
-
-Enable **Use Flask REST API** in the Streamlit sidebar.
 
 ## 3. API response example
 

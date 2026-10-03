@@ -1,11 +1,10 @@
 import os
-import io
 import json
 import pandas as pd
 import streamlit as st
 
-from services.model_service import get_model, predict_texts, explain_prediction
-from services.api_client import predict_via_api, predict_via_local_flask
+from services.model_service import get_model, explain_prediction
+from services.api_client import predict_via_api
 
 st.set_page_config(
     page_title="Product Review Sentiment Analysis System",
@@ -41,22 +40,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ---------- Sidebar ----------
-with st.sidebar:
-    st.header("System")
-    api_mode = st.toggle(
-        "Use Flask REST API",
-        value=bool(os.getenv("FLASK_API_URL")),
-        help="If enabled, Streamlit sends predictions to the Flask API. Otherwise it uses the Flask app locally through its test client."
-    )
-    api_url = os.getenv("FLASK_API_URL", "http://127.0.0.1:5000")
-    if api_mode:
-        st.caption(f"API endpoint: {api_url}")
-    st.divider()
-    # st.caption("Stack")
-    # st.write("Python • scikit-learn • Flask • Streamlit")
-    # st.caption("Model")
-    # st.write("TF-IDF + Logistic Regression")
+api_url = os.getenv("FLASK_API_URL", "http://127.0.0.1:5000")
 
 model = get_model()
 
@@ -84,10 +68,7 @@ with tab1:
             st.warning("Enter a review first.")
         else:
             try:
-                if api_mode:
-                    result = predict_via_api(review, api_url)
-                else:
-                    result = predict_via_local_flask(review)
+                result = predict_via_api(review, api_url)
                 predicted = result["sentiment"]
                 probs = result["probabilities"]
                 confidence = result["confidence"]
@@ -126,14 +107,9 @@ with tab2:
             batch["review"] = batch["review"].fillna("").astype(str)
             if st.button("Run batch analysis", type="primary"):
                 try:
-                    if api_mode:
-                        results = [predict_via_api(text, api_url) for text in batch["review"]]
-                        batch["sentiment"] = [r["sentiment"] for r in results]
-                        batch["confidence"] = [r["confidence"] for r in results]
-                    else:
-                        predictions = predict_texts(model, batch["review"].tolist())
-                        batch["sentiment"] = [p[0] for p in predictions]
-                        batch["confidence"] = [p[2] for p in predictions]
+                    results = [predict_via_api(text, api_url) for text in batch["review"]]
+                    batch["sentiment"] = [result["sentiment"] for result in results]
+                    batch["confidence"] = [result["confidence"] for result in results]
 
                     st.success(f"Analyzed {len(batch):,} reviews.")
                     st.dataframe(batch, use_container_width=True, hide_index=True)
@@ -180,12 +156,3 @@ with tab3:
         st.warning("Metrics file not found. Run `python scripts/train.py` first.")
 
     st.divider()
-#     st.subheader("How the system works")
-#     st.markdown("""
-# 1. **Text input** is validated and normalized.
-# 2. **TF-IDF** converts the review into numerical features using unigrams and bigrams.
-# 3. **Logistic Regression** predicts Positive, Neutral, or Negative.
-# 4. **Probability scores** provide a confidence estimate.
-# 5. **Flask** exposes the same model through `/health` and `/predict`.
-# 6. **Streamlit** provides the interactive UI and batch-analysis workflow.
-# """)
