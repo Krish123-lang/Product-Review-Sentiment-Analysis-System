@@ -42,17 +42,17 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------- Sidebar ----------
-# with st.sidebar:
-#     st.header("System")
-#     api_mode = st.toggle(
-#         "Use Flask REST API",
-#         value=bool(os.getenv("FLASK_API_URL")),
-#         help="If enabled, Streamlit sends predictions to the Flask API. Otherwise it uses the Flask app locally through its test client."
-#     )
-#     api_url = os.getenv("FLASK_API_URL", "http://127.0.0.1:5000")
-#     if api_mode:
-#         st.caption(f"API endpoint: {api_url}")
-#     st.divider()
+with st.sidebar:
+    st.header("System")
+    api_mode = st.toggle(
+        "Use Flask REST API",
+        value=bool(os.getenv("FLASK_API_URL")),
+        help="If enabled, Streamlit sends predictions to the Flask API. Otherwise it uses the Flask app locally through its test client."
+    )
+    api_url = os.getenv("FLASK_API_URL", "http://127.0.0.1:5000")
+    if api_mode:
+        st.caption(f"API endpoint: {api_url}")
+    st.divider()
     # st.caption("Stack")
     # st.write("Python • scikit-learn • Flask • Streamlit")
     # st.caption("Model")
