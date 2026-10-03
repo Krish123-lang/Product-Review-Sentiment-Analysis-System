@@ -1,4 +1,4 @@
-# ReviewSense AI
+# Product Review Sentiment Analysis System
 
 Product Review Sentiment Analysis System built with:
 
@@ -101,18 +101,7 @@ curl -X POST http://127.0.0.1:5000/predict -H "Content-Type: application/json" -
 
 Enable **Use Flask REST API** in the Streamlit sidebar.
 
-## 3. Deploy to Streamlit Community Cloud
-
-1. Create a GitHub repository.
-2. Upload this project.
-3. Make sure `app.py`, `requirements.txt`, `data/`, `models/`, `services/`, and `scripts/` are committed.
-4. Open Streamlit Community Cloud.
-5. Create a new app.
-6. Select your repository and branch.
-7. Set the main file to `app.py`.
-8. Deploy.
-
-## 4. API response example
+## 3. API response example
 
 `POST /predict`
 
