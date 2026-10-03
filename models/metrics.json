@@ -1,0 +1,61 @@
+{
+  "model": "TF-IDF + Logistic Regression",
+  "classes": [
+    "negative",
+    "neutral",
+    "positive"
+  ],
+  "dataset_rows": 180,
+  "test_rows": 36,
+  "accuracy": 0.9444,
+  "classification_report": {
+    "negative": {
+      "precision": 0.8571428571428571,
+      "recall": 1.0,
+      "f1-score": 0.9230769230769231,
+      "support": 12.0
+    },
+    "neutral": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 12.0
+    },
+    "positive": {
+      "precision": 1.0,
+      "recall": 0.8333333333333334,
+      "f1-score": 0.9090909090909091,
+      "support": 12.0
+    },
+    "accuracy": 0.9444444444444444,
+    "macro avg": {
+      "precision": 0.9523809523809524,
+      "recall": 0.9444444444444445,
+      "f1-score": 0.9440559440559441,
+      "support": 36.0
+    },
+    "weighted avg": {
+      "precision": 0.9523809523809523,
+      "recall": 0.9444444444444444,
+      "f1-score": 0.9440559440559441,
+      "support": 36.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      12,
+      0,
+      0
+    ],
+    [
+      0,
+      12,
+      0
+    ],
+    [
+      2,
+      0,
+      10
+    ]
+  ]
+}
